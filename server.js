@@ -60,7 +60,7 @@ const promptUser = () => {
         }
         if (choices === 'Exit') {
             connection.end;
-        }
+        };
     }
 }
 
@@ -101,7 +101,7 @@ async function getEmployees() {
 }
 
 // ADD FUNCTIONS
-async function getDeptName() {
+const addDepartment = () => {
     inquirer.prompt([
         {
         name: 'newDept',
@@ -120,9 +120,84 @@ async function getDeptName() {
     })
 }
 
-async function addRole() {
-
+const addRole = (deptInfo) => {
+    inquirer.prompt([
+        {
+            name: 'name',
+            type: 'input',
+            message: 'What is the name of the new role?'
+        },
+        {
+            name: 'salary',
+            type: 'input',
+            message: 'What is the salary of the new role?'
+        },
+        {
+            name: 'department',
+            type: 'list',
+            message: 'What is the department of the new role?',
+            choices: [...eDepartment]
+        }
+    ])
+    .then((a) => {
+        let newRole = a.name;
+        let departmentId;
+       
+        response.forEach((department) => {
+            if (deptInfo.department === eDepartment.name) {
+                departmentId = eDepartment.id;
+            }
+        });
+        
+        let q = "INSERT INTO eRole (title, salary, department_id) VALES (?, ?, ?)";
+        let create = [newRole, a.salary, departmentId];  
+       connection.promise().query(q, create, (error) => {
+            if (e) throw error;
+            console.log(`The ` + create + ` has been successfully created!`);
+            viewAllRoles();  
+       })
+    })
 }
-async function addEmployee() {
 
+const addEmployee = () => {
+    inquirer.prompt([
+        {
+            type: input,
+            name: fName,
+            message: "What is the Employee's first name?"
+        },
+        {
+            type: input,
+            name: lName,
+            message: "What is the Employee's last name?"
+        },
+        {
+            type: list,
+            name: newRole,
+            choices: [...eRole]
+
+        },
+        {
+            type: list,
+            name: manager,
+            message: "Who is the Employee's manager?",
+            choices: managers
+        }
+    ])
+    .then((a) => {
+        const newObj = [a.fName, a.lName];
+        const q = "SELECT role.id, role.title FROM role";
+        connection.promise().query(q, (error, data) => {
+            if (e) throw error;
+            const role = a.newRole;
+            const manager = a.manager;
+            newObj.push(role);
+            newObj.push(manager);
+            const sql = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)"
+            connection.query(sql, crit, (error) => {
+            if (e) throw error;
+            console.log(newObj + " has been added!")
+            viewAllEmployees();
+        })
+    })
 }
