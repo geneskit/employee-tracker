@@ -17,7 +17,7 @@ connection.connect(err => {
     promptUser();
 });
 
-async function promptUser() {
+const promptUser = () => {
     inquirer.prompt([
         {
             name: 'initialPrompts',
@@ -38,7 +38,7 @@ async function promptUser() {
     .then(answers => {
         // const {choices} = answers;
         if (answers === 'View All Departments') {
-            viewAllDept();
+            return viewAllDept();
         }
         if (answers === 'View All Roles') {
             viewAllRoles();
@@ -66,7 +66,7 @@ async function promptUser() {
 
 // VIEW FUNCTIONS
 const viewAllDept = () => {
-    console.log("=====I AM HERE=====");
+    return console.log("=====I AM HERE=====");
 }
     // console.log("=====View All Departments=====");
     // let q = "SELECT * FROM eDepartment";

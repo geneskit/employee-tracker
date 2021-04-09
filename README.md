@@ -1,5 +1,17 @@
 # Module 12: Employee Tracker
 
+## Description
+An application created using Node.js that features an employee tracking database.
+
+FEATURES:
+- View All Department
+- View All Roles
+- View All Employees
+- Add A Department
+- Add A Role
+- Add An Employee
+- Update Employee Role
+
 ## Acceptance Criteria
 
 GIVEN a command-line application that accepts user input
