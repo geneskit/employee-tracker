@@ -47,7 +47,7 @@ const promptUser = () => {
         if (a.initialPrompts === 'View All Employees') {
             viewAllEmployees();
         }
-        if (a.initialPrompts === 'Add A Departments') {
+        if (a.initialPrompts === 'Add A Department') {
             addDepartment();
         }
         if (a.initialPrompts === 'Add A Role') {
@@ -95,22 +95,19 @@ const viewAllEmployees = () => {
 
 // ADD FUNCTIONS
 const addDepartment = () => {
-    // inquirer.prompt([
-    //     {
-    //     name: 'newDept',
-    //     type: 'input',
-    //     message: 'What is the name of the new department?',
-    //     validate: validate.validateString
-    //     },
-    // ])
-    // .then((a) => {
-    //     let q = "INSERT INTO eDepartment (name) VALES (?)";
-    //     connect.query(q, a.newDepartment, (error, response) => {
-    //         if (e) throw error;
-    //         console.log(`The ` + a.newDepartment + ` has been successfully created!`);
-    //         viewAllDepartments();
-    //     })
-    // })
+    inquirer.prompt([
+        {
+            name: "newDept",
+            type: "input",
+            message: "What is the name of the new department?"
+        }
+    ])
+    .then((a) => {
+        let q = "INSERT INTO eDepartment (name) VALUES (?)";
+        const r = connect.query(q, a.newDept);
+        console.log(a.newDept + " has been successfully added to eDepartment.")
+        viewAllDept();
+    })
 }
 
 const addRole = (deptInfo) => {
