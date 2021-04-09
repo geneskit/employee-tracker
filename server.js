@@ -26,7 +26,7 @@ const promptUser = () => {
             choices: [
                 'View All Departments',
                 'View All Roles',
-                'View All Employees,',
+                'View All Employees',
                 'Add A Department',
                 'Add A Role',
                 'Add An Employee',
@@ -75,7 +75,7 @@ const viewAllDept = () => {
     });
 };
 
-async function viewAllRoles() {
+const viewAllRoles = () => {
     let q = "SELECT * FROM eRole";
     connect.query(q, (error, response) => {
         if (error) throw error;
@@ -84,15 +84,13 @@ async function viewAllRoles() {
     });
 }
 
-async function viewAllEmployees() {
-    // let q = "SELECT * FROM employee";
-    // const r = await connect.query(q);
-
-    // let a = [];
-    // for (const e of r) {
-    //     a.push(e.first_name + " " + e.last_name);
-    // }
-    // return a;
+const viewAllEmployees = () => {
+    let q = "SELECT * FROM employee";
+    connect.query(q, (error, response) => {
+        if (error) throw error;
+        console.table(response);
+        promptUser();
+    });
 }
 
 // ADD FUNCTIONS
