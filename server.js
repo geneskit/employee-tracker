@@ -35,40 +35,39 @@ const promptUser = () => {
             ]
         }
     ])
-    .then(answers => {
-        // const {choices} = answers;
-        if (answers === 'View All Departments') {
-            return viewAllDept();
+    .then((a) => {
+        // const cursor = a;
+
+        if (a.initialPrompts === 'View All Departments') {
+            viewAllDept();
         }
-        if (answers === 'View All Roles') {
+        if (a.initialPrompts === 'View All Roles') {
             viewAllRoles();
         }
-        if (answers === 'View All Employees') {
+        if (a.initialPrompts === 'View All Employees') {
             viewAllEmployees();
         }
-        if (answers === 'Add A Departments') {
+        if (a.initialPrompts === 'Add A Departments') {
             addDepartment();
         }
-        if (answers === 'Add A Role') {
+        if (a.initialPrompts === 'Add A Role') {
             addRole();
         }
-        if (answers === 'Add An Employee') {
+        if (a.initialPrompts === 'Add An Employee') {
             addEmployee();
         }
-        if (answers === 'Update Employee Role') {
+        if (a.initialPrompts === 'Update Employee Role') {
             updateEmployee();
         }
-        if (answers === 'Exit') {
+        if (a.initialPrompts === 'Exit') {
             connection.end;
         }
     });
 }
 
 // VIEW FUNCTIONS
-const viewAllDept = () => {
-    return console.log("=====I AM HERE=====");
-}
-    // console.log("=====View All Departments=====");
+async function viewAllDept() {
+    console.log("=====View All Departments=====");
     // let q = "SELECT * FROM eDepartment";
     // const r = await connection.query(q);
 
@@ -78,6 +77,8 @@ const viewAllDept = () => {
     //     a.push(dept.name);
     // }
     // return a;
+}
+    
 
 
 async function viewAllRoles() {
