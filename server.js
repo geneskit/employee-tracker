@@ -76,15 +76,12 @@ const viewAllDept = () => {
 };
 
 async function viewAllRoles() {
-    // let q = "SELECT * FROM eRole";
-    // const r = await connect.query(q);
-
-    // let a = [];
-    // for (let i = 0; i < r.length; i++) {
-    //     const role = r[i]
-    //     a.push(role.name);
-    // }
-    // return a;
+    let q = "SELECT * FROM eRole";
+    connect.query(q, (error, response) => {
+        if (error) throw error;
+        console.table(response);
+        promptUser();
+    });
 }
 
 async function viewAllEmployees() {
