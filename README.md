@@ -32,4 +32,21 @@ GIVEN a command-line application that accepts user input
 - WHEN I choose to **update an employee role**
 - THEN I am prompted to **select an employee to update and their new role and this information is updated in the database**
 
+## Installation Instructions:
 
+Please install the folllowing packages to successfully run this application.
+```
+npm install node
+npm install inquirer
+npm install console.table --save
+npm install mysql2
+```
+
+## Usage:
+
+Once the application has been started, the user will be able to choose from a list of commands what they would like to do next. Here is a screenshot of the main menu:
+<br><br>
+![Screenshot](employee-track.png) 
+<br><br>
+
+[Here is a link to the walkthrough video.](www.youtube.com)
