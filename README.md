@@ -46,7 +46,7 @@ npm install mysql2
 
 Once the application has been started, the user will be able to choose from a list of commands what they would like to do next. Here is a screenshot of the main menu:
 <br><br>
-<img src="assets/media/employee-tracker.PNG">
+![employee-tracker.png](assets/media/employee-tracker.PNG) 
 <br><br>
 
 [Here is a link to the walkthrough video.](www.youtube.com)
