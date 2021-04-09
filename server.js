@@ -35,37 +35,37 @@ const promptUser = () => {
             ]
         }
     ])
-    .then((a)) => {
+    .then((a) => {
         const {choices} = a;
-        if (choices === 'View All Departments') {
+        if (a.choices === 'View All Departments') {
             viewAllDepartments();
         }
-        if (choices === 'View All Roles') {
+        if (a.choices === 'View All Roles') {
             viewAllRoles();
         }
-        if (choices === 'View All Employees') {
+        if (a.choices === 'View All Employees') {
             viewAllEmployees();
         }
-        if (choices === 'Add A Departments') {
+        if (a.choices === 'Add A Departments') {
             addDepartment();
         }
-        if (choices === 'Add A Role') {
+        if (a.choices === 'Add A Role') {
             addRole();
         }
-        if (choices === 'Add An Employee') {
+        if (a.choices === 'Add An Employee') {
             addEmployee();
         }
-        if (choices === 'Update Employee Role') {
+        if (a.choices === 'Update Employee Role') {
             updateEmployee();
         }
-        if (choices === 'Exit') {
+        if (a.choices === 'Exit') {
             connection.end;
-        };
-    }
+        }
+    });
 }
 
 // VIEW FUNCTIONS
-async function getDepartments() {
+async function viewAllDepartments() {
     let q = "SELECT * FROM eDepartment";
     const r = await connection.query(q);
 
@@ -77,7 +77,7 @@ async function getDepartments() {
     return a;
 }
 
-async function getRoles() {
+async function viewAllRoles() {
     let q = "SELECT * FROM eRole";
     const r = await connection.query(q);
 
@@ -89,7 +89,7 @@ async function getRoles() {
     return a;
 }
 
-async function getEmployees() {
+async function viewAllEmployees() {
     let q = "SELECT * FROM employee";
     const r = await connection.query(q);
 
@@ -152,7 +152,7 @@ const addRole = (deptInfo) => {
         let q = "INSERT INTO eRole (title, salary, department_id) VALES (?, ?, ?)";
         let create = [newRole, a.salary, departmentId];  
        connection.promise().query(q, create, (error) => {
-            if (e) throw error;
+            if (err) throw error;
             console.log(`The ` + create + ` has been successfully created!`);
             viewAllRoles();  
        })
@@ -184,20 +184,4 @@ const addEmployee = () => {
             choices: managers
         }
     ])
-    .then((a) => {
-        const newObj = [a.fName, a.lName];
-        const q = "SELECT role.id, role.title FROM role";
-        connection.promise().query(q, (error, data) => {
-            if (e) throw error;
-            const role = a.newRole;
-            const manager = a.manager;
-            newObj.push(role);
-            newObj.push(manager);
-            const sql = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)"
-            connection.query(sql, crit, (error) => {
-            if (e) throw error;
-            console.log(newObj + " has been added!")
-            viewAllEmployees();
-        })
-    })
 }
