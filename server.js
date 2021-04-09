@@ -3,7 +3,7 @@ const cTable = require('console.table');
 const inquirer = require("inquirer");
 let Database = require('./db/database.js');
 
-const connection = mysql.createConnection({
+const connect = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
@@ -11,9 +11,9 @@ const connection = mysql.createConnection({
     database: "employee_trackerDB"
 })
 
-connection.connect(err => {
+connect.connect(err => {
     if (err) throw err;
-    console.log('connected as id ' + connection.threadId);
+    console.log('connected as id ' + connect.threadId);
     promptUser();
 });
 
@@ -60,132 +60,126 @@ const promptUser = () => {
             updateEmployee();
         }
         if (a.initialPrompts === 'Exit') {
-            connection.end;
+            connect.end;
         }
     });
 }
 
 // VIEW FUNCTIONS
-async function viewAllDept() {
-    console.log("=====View All Departments=====");
-    // let q = "SELECT * FROM eDepartment";
-    // const r = await connection.query(q);
+const viewAllDept = () => {
+    let q = "SELECT * FROM eDepartment";
+    connect.query(q, (error, response) => {
+        if (error) throw error;
+        console.table(response);
+        promptUser();
+    });
+};
+
+async function viewAllRoles() {
+    // let q = "SELECT * FROM eRole";
+    // const r = await connect.query(q);
 
     // let a = [];
     // for (let i = 0; i < r.length; i++) {
-    //     const dept = r[i]
-    //     a.push(dept.name);
+    //     const role = r[i]
+    //     a.push(role.name);
     // }
     // return a;
 }
-    
-
-
-async function viewAllRoles() {
-    let q = "SELECT * FROM eRole";
-    const r = await connection.query(q);
-
-    let a = [];
-    for (let i = 0; i < r.length; i++) {
-        const role = r[i]
-        a.push(role.name);
-    }
-    return a;
-}
 
 async function viewAllEmployees() {
-    let q = "SELECT * FROM employee";
-    const r = await connection.query(q);
+    // let q = "SELECT * FROM employee";
+    // const r = await connect.query(q);
 
-    let a = [];
-    for (const e of r) {
-        a.push(e.first_name + " " + e.last_name);
-    }
-    return a;
+    // let a = [];
+    // for (const e of r) {
+    //     a.push(e.first_name + " " + e.last_name);
+    // }
+    // return a;
 }
 
 // ADD FUNCTIONS
 const addDepartment = () => {
-    inquirer.prompt([
-        {
-        name: 'newDept',
-        type: 'input',
-        message: 'What is the name of the new department?',
-        validate: validate.validateString
-        },
-    ])
-    .then((a) => {
-        let q = "INSERT INTO eDepartment (name) VALES (?)";
-        connection.query(q, a.newDepartment, (error, response) => {
-            if (e) throw error;
-            console.log(`The ` + a.newDepartment + ` has been successfully created!`);
-            viewAllDepartments();
-        })
-    })
+    // inquirer.prompt([
+    //     {
+    //     name: 'newDept',
+    //     type: 'input',
+    //     message: 'What is the name of the new department?',
+    //     validate: validate.validateString
+    //     },
+    // ])
+    // .then((a) => {
+    //     let q = "INSERT INTO eDepartment (name) VALES (?)";
+    //     connect.query(q, a.newDepartment, (error, response) => {
+    //         if (e) throw error;
+    //         console.log(`The ` + a.newDepartment + ` has been successfully created!`);
+    //         viewAllDepartments();
+    //     })
+    // })
 }
 
 const addRole = (deptInfo) => {
-    inquirer.prompt([
-        {
-            name: 'name',
-            type: 'input',
-            message: 'What is the name of the new role?'
-        },
-        {
-            name: 'salary',
-            type: 'input',
-            message: 'What is the salary of the new role?'
-        },
-        {
-            name: 'department',
-            type: 'list',
-            message: 'What is the department of the new role?',
-            choices: [...eDepartment]
-        }
-    ])
-    .then((a) => {
-        let newRole = a.name;
-        let departmentId;
+    // inquirer.prompt([
+    //     {
+    //         name: 'name',
+    //         type: 'input',
+    //         message: 'What is the name of the new role?'
+    //     },
+    //     {
+    //         name: 'salary',
+    //         type: 'input',
+    //         message: 'What is the salary of the new role?'
+    //     },
+    //     {
+    //         name: 'department',
+    //         type: 'list',
+    //         message: 'What is the department of the new role?',
+    //         choices: [...eDepartment]
+    //     }
+    // ])
+    // .then((a) => {
+    //     let newRole = a.name;
+    //     let departmentId;
        
-        response.forEach((department) => {
-            if (deptInfo.department === eDepartment.name) {
-                departmentId = eDepartment.id;
-            }
-        });
+    //     response.forEach((department) => {
+    //         if (deptInfo.department === eDepartment.name) {
+    //             departmentId = eDepartment.id;
+    //         }
+    //     });
         
-        let q = "INSERT INTO eRole (title, salary, department_id) VALES (?, ?, ?)";
-        let create = [newRole, a.salary, departmentId];  
-       connection.promise().query(q, create, (error) => {
-            if (err) throw error;
-            console.log(`The ` + create + ` has been successfully created!`);
-            viewAllRoles();  
-       })
-    })
+    //     let q = "INSERT INTO eRole (title, salary, department_id) VALES (?, ?, ?)";
+    //     let create = [newRole, a.salary, departmentId];  
+    //    connect.promise().query(q, create, (error) => {
+    //         if (err) throw error;
+    //         console.log(`The ` + create + ` has been successfully created!`);
+    //         viewAllRoles();  
+    //    })
+    // })
 }
 
 const addEmployee = () => {
-    inquirer.prompt([
-        {
-            type: input,
-            name: fName,
-            message: "What is the Employee's first name?"
-        },
-        {
-            type: input,
-            name: lName,
-            message: "What is the Employee's last name?"
-        },
-        {
-            type: list,
-            name: newRole,
-            choices: [...eRole]
+    // inquirer.prompt([
+    //     {
+    //         type: input,
+    //         name: fName,
+    //         message: "What is the Employee's first name?"
+    //     },
+    //     {
+    //         type: input,
+    //         name: lName,
+    //         message: "What is the Employee's last name?"
+    //     },
+    //     {
+    //         type: list,
+    //         name: newRole,
+    //         choices: [...eRole]
 
-        },
-        {
-            type: list,
-            name: manager,
-            message: "Who is the Employee's manager?",
-            choices: managers
-        }
-    ])
+    //     },
+    //     {
+    //         type: list,
+    //         name: manager,
+    //         message: "Who is the Employee's manager?",
+    //         choices: managers
+    //     }
+    // ])
 }
