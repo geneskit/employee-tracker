@@ -14,10 +14,10 @@ const connection = mysql.createConnection({
 connection.connect(err => {
     if (err) throw err;
     console.log('connected as id ' + connection.threadId);
-    afterConnection();
+    promptUser();
 });
 
-const promptUser = () => {
+async function promptUser() {
     inquirer.prompt([
         {
             name: 'initialPrompts',
@@ -35,47 +35,50 @@ const promptUser = () => {
             ]
         }
     ])
-    .then((a) => {
-        const {choices} = a;
-        if (a.choices === 'View All Departments') {
-            viewAllDepartments();
+    .then(answers => {
+        // const {choices} = answers;
+        if (answers === 'View All Departments') {
+            viewAllDept();
         }
-        if (a.choices === 'View All Roles') {
+        if (answers === 'View All Roles') {
             viewAllRoles();
         }
-        if (a.choices === 'View All Employees') {
+        if (answers === 'View All Employees') {
             viewAllEmployees();
         }
-        if (a.choices === 'Add A Departments') {
+        if (answers === 'Add A Departments') {
             addDepartment();
         }
-        if (a.choices === 'Add A Role') {
+        if (answers === 'Add A Role') {
             addRole();
         }
-        if (a.choices === 'Add An Employee') {
+        if (answers === 'Add An Employee') {
             addEmployee();
         }
-        if (a.choices === 'Update Employee Role') {
+        if (answers === 'Update Employee Role') {
             updateEmployee();
         }
-        if (a.choices === 'Exit') {
+        if (answers === 'Exit') {
             connection.end;
         }
     });
 }
 
 // VIEW FUNCTIONS
-async function viewAllDepartments() {
-    let q = "SELECT * FROM eDepartment";
-    const r = await connection.query(q);
-
-    let a = [];
-    for (let i = 0; i < r.length; i++) {
-        const dept = r[i]
-        a.push(dept.name);
-    }
-    return a;
+const viewAllDept = () => {
+    console.log("=====I AM HERE=====");
 }
+    // console.log("=====View All Departments=====");
+    // let q = "SELECT * FROM eDepartment";
+    // const r = await connection.query(q);
+
+    // let a = [];
+    // for (let i = 0; i < r.length; i++) {
+    //     const dept = r[i]
+    //     a.push(dept.name);
+    // }
+    // return a;
+
 
 async function viewAllRoles() {
     let q = "SELECT * FROM eRole";
