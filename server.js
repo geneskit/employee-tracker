@@ -17,6 +17,13 @@ connect.connect(err => {
     promptUser();
 });
 
+const getDeptId = (name) => {
+    let q = "SELECT department_id FROM eRole WHERE title = (?)";
+    let x = [name.toString()];
+    const obj = connect.query(q, x);
+    console.log(obj);
+}
+
 const promptUser = () => {
     inquirer.prompt([
         {
@@ -36,8 +43,6 @@ const promptUser = () => {
         }
     ])
     .then((a) => {
-        // const cursor = a;
-
         if (a.initialPrompts === 'View All Departments') {
             viewAllDept();
         }
@@ -105,73 +110,39 @@ const addDepartment = () => {
     .then((a) => {
         let q = "INSERT INTO eDepartment (name) VALUES (?)";
         const r = connect.query(q, a.newDept);
-        console.log(a.newDept + " has been successfully added to eDepartment.")
+        console.log(a.newDept + " has been successfully added to eDepartment.");
         viewAllDept();
     })
 }
 
-const addRole = (deptInfo) => {
-    // inquirer.prompt([
-    //     {
-    //         name: 'name',
-    //         type: 'input',
-    //         message: 'What is the name of the new role?'
-    //     },
-    //     {
-    //         name: 'salary',
-    //         type: 'input',
-    //         message: 'What is the salary of the new role?'
-    //     },
-    //     {
-    //         name: 'department',
-    //         type: 'list',
-    //         message: 'What is the department of the new role?',
-    //         choices: [...eDepartment]
-    //     }
-    // ])
-    // .then((a) => {
-    //     let newRole = a.name;
-    //     let departmentId;
-       
-    //     response.forEach((department) => {
-    //         if (deptInfo.department === eDepartment.name) {
-    //             departmentId = eDepartment.id;
-    //         }
-    //     });
-        
-    //     let q = "INSERT INTO eRole (title, salary, department_id) VALES (?, ?, ?)";
-    //     let create = [newRole, a.salary, departmentId];  
-    //    connect.promise().query(q, create, (error) => {
-    //         if (err) throw error;
-    //         console.log(`The ` + create + ` has been successfully created!`);
-    //         viewAllRoles();  
-    //    })
-    // })
-}
-
-const addEmployee = () => {
-    // inquirer.prompt([
-    //     {
-    //         type: input,
-    //         name: fName,
-    //         message: "What is the Employee's first name?"
-    //     },
-    //     {
-    //         type: input,
-    //         name: lName,
-    //         message: "What is the Employee's last name?"
-    //     },
-    //     {
-    //         type: list,
-    //         name: newRole,
-    //         choices: [...eRole]
-
-    //     },
-    //     {
-    //         type: list,
-    //         name: manager,
-    //         message: "Who is the Employee's manager?",
-    //         choices: managers
-    //     }
-    // ])
+const addRole = () => {
+    inquirer.prompt([
+        {
+            name: 'name',
+            type: 'input',
+            message: 'What is the name of the new role?'
+        },
+        {
+            name: 'salary',
+            type: 'input',
+            message: 'What is the salary of the new role?'
+        },
+        {
+            name: 'dept',
+            type: 'input',
+            message: 'What is the department of the new role?'
+        }
+    ])
+    .then((a) => {
+        let q1 = "INSERT INTO eRole (title, salary, department_id) VALUES (?, ?, ?)";
+        let newRole = a.name;
+        const id = getDeptId(a.dept);
+        let obj = [newRole, a.salary, id];
+                
+        // connect.promise().query(q1, obj, (err) => {
+        //     if (e) throw e;
+        //     console.log(a.newDept + " has been successfully added to eRole.");
+        //     viewAllRoles();
+        // })
+    })
 }
